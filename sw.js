@@ -1,10 +1,10 @@
-const CACHE='trato-v71';
+const CACHE='trato-v72';
 const RUNTIME='trato-runtime-v1';
 const FILES=['./','./index.html','./manifest.json','./icone-192.png','./icone-512.png'];
 
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:'reload'})))));self.skipWaiting();});
 self.addEventListener('activate',e=>{
-  e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE&&x!==RUNTIME).map(x=>caches.delete(x)))));
+  e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('trato-')&&x!==CACHE&&x!==RUNTIME).map(x=>caches.delete(x)))));
   self.clients.claim();
 });
 
